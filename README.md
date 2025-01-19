@@ -1,21 +1,21 @@
-a# Earthquake Monitor with ESP8266 🌍🔴
+a# Earthquake Monitor with ESP8266 microcomputer 🌍🔴
 Displays color status on micro computer depending on live earthquake data for Los Angeles Region.
 Similar to [nicktorres.net/earthquake](https://www.nicktorres.net/earthquake/), but simpler and for a micro computer. 
 
-This project uses an ESP8266 microcontroller with **MicroPython** to monitor earthquake activity through the USGS Earthquake API. It uses LEDs to visually indicate the severity of earthquakes detected within a 200 km radius of a given location. 
+This project uses an ESP8266 microcontroller with **MicroPython** to monitor earthquake activity through the USGS Earthquake API. It uses LEDs to visually indicate the severity of earthquakes detected within a 200 km radius
 
 ---
 
 ## 📋 Features
 - **Earthquake Detection**: Queries the USGS API for earthquake data.
-- **Severity Indication**: Uses LEDs (Red, Yellow, Green, Blue) to represent different severity levels.
+- **Severity Indication**: Uses LED colors to represent different severity levels.
 - **Wi-Fi Connectivity**: Easily connect to a Wi-Fi network.
 - **Modular Design**: Cleanly separates sensitive credentials for security.
 
 ### Why is the logic of main.py so weird?
 Fair question, hear me out. At first I wanted to query the earthquake data, parse through it, and determine a severity status based on number of events, magnitude, and current time. This strategy proved very difficuly considering this microcomputer doesn't even have a system clock, and to parse through all the data in this fashion we quickly run out of memory!
 
-Do deal with these constraints, a more creative approach was needed. Given the limited libraries, limited storage, and lack of clock, earthquake severity is determined simply by making a conditional sequence of API requests with pre set query parameters like minimum magnitude, and start time. Because we simply don't have the memory to parse the responses, the script simply checks the response length to determine if we have events with the specified minimum magnitude and time frame. if the response is less than 200 characters, we know that there wasn't any matching earthquake data returned based on the average length of an empty response. If there is more than 200 characters, we can assume at least one matching data event was returned, thus allowing us to determine the earthquake severity without parsing through the response! 
+Do deal with these constraints, a more creative approach was needed. Given the limited libraries, limited storage, and lack of clock, earthquake severity is determined simply by making a conditional sequence of API requests with pre set query parameters like minimum magnitude, and start time. Because we don't have the memory to parse through large responses, the script instead checks the response length to determine if we have events with the specified minimum magnitude and time frame. if the response is less than 200 characters, we know that there wasn't any matching earthquake data returned based on the average length of an empty response. If there is more than 200 characters, we can assume at least one matching data event was returned, thus allowing us to determine the earthquake severity without parsing through the response! 
 
 The lack of a clock really made this difficult, considering we are relying on the API query parameters, and we need to supply the startTime parameter. It took me a while to hack around and figure out that I could pass NOW-48hours as a valid query Param, and that this NOW value would use the current UTC time on the API side, and subtract 48 hours. This is because the parameter supports relative time expressions! Considering the two options of when to generate the startTime parameter, this situation seems optimal for the use case. Because it's a real time system where we want to get the latest earthquake data available, it's preferred to generate the time on the server side, as opposed to a few milliseconds earlier on the micro computer about to make request. This ensures the most up to date data is returned. So no clock needed for now...
 
@@ -92,8 +92,6 @@ Main script to query earthquake data, analyze severity, and control LEDs.
 
 wifi_config.py
 Stores Wi-Fi credentials securely. This file is ignored in .gitignore.
-
-
 
 
 🔧 Troubleshooting
