@@ -103,24 +103,3 @@ Serial Connection Issues: Ensure the correct COM port and baud rate (115200).
 Do Not Commit wifi_config.py: This file contains sensitive Wi-Fi credentials.
 Use .gitignore to prevent accidental uploads.
 
-Breadboard Setup: (Top and bottom rows are power and ground rails)
---------------------------------------------------------------------------------
-  GND  |------------------|                                        |------------------|  3.3V
-        |                                                                              |
-        |                                                                              |
-        |                                                                              |
-    ESP8266 Module (NodeMCU / Wemos D1 Mini)
-        GND o---------------------------------------------------------o GND
-        3V  o---------------------------------------------------------o 3.3V
-        D2  o---------| [220Ω] -------- [Blue LED (+)] [(-)] -------- o GND (Built-in LED GPIO 2)
-        D5  o---------| [220Ω] -------- [Yellow LED (+)] [(-)] -------o GND
-        D4  o---------| [220Ω] -------- [Red LED (+)] [(-)] ----------o GND
-        D0  o---------| [220Ω] -------- [Green LED (+)] [(-)] --------o GND
---------------------------------------------------------------------------------
-
-LEGEND:
-- GND: Connect to the ground rail of the breadboard.
-- 3.3V: Power rail for the ESP8266.
-- GPIO Pins (D2, D5, D4, D0): Control LEDs.
-- Resistors (220Ω or 330Ω): Limit current to the LEDs.
-- LEDs (Blue, Yellow, Red, Green): Indicate earthquake statuses.
