@@ -1,4 +1,4 @@
-a# Earthquake Monitor with ESP8266 microcomputer 🌍🔴
+# Earthquake Monitor with ESP8266 microcomputer 🌍🔴
 Displays color status on micro computer depending on live earthquake data for Los Angeles Region.
 Similar to [nicktorres.net/earthquake](https://www.nicktorres.net/earthquake/), but simpler and for a micro computer. 
 
