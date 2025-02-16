@@ -13,7 +13,7 @@ This project uses an ESP8266 microcontroller with **MicroPython** to monitor ear
 - **Modular Design**: Cleanly separates sensitive credentials for security.
 
 ### Why is the logic of main.py so weird?
-Fair question, hear me out. At first I wanted to query the earthquake data, parse through it, and determine a severity status based on number of events, magnitude, and current time. This strategy proved very difficuly considering this microcomputer doesn't even have a system clock, and to parse through all the data in this fashion we quickly run out of memory!
+Fair question, hear me out. At first I wanted to query the earthquake data, parse through it, and determine a severity status based on number of events, magnitude, and current time. This strategy proved very difficult considering this microcomputer doesn't even have a system clock, and to parse through all the data in this fashion we quickly run out of memory!
 
 To deal with these constraints, a more creative approach was needed. Given the limited libraries, limited storage, and lack of clock, earthquake severity is determined simply by making a conditional sequence of API requests with pre set query parameters like minimum magnitude, and start time. Because we don't have the memory to parse through large responses, the script instead checks the response length to determine if we have events with the specified minimum magnitude and time frame. if the response is less than 200 characters, we know that there wasn't any matching earthquake data returned based on the average length of an empty response. If there is more than 200 characters, we can assume at least one matching data event was returned, thus allowing us to determine the earthquake severity without parsing through the response! 
 
